@@ -1,0 +1,62 @@
+CREATE TABLE IF NOT EXISTS ChangeDto (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    groupId INTEGER NOT NULL,
+    classroomId INTEGER NOT NULL,
+    teacherId INTEGER,
+    subjectId INTEGER,
+    eventName TEXT,
+    isSubject INTEGER NOT NULL,
+    lessonNumber INTEGER NOT NULL,
+    date TEXT NOT NULL,
+    isNumerator INTEGER NOT NULL,
+    FOREIGN KEY (groupId) REFERENCES GroupDto(id) ON DELETE CASCADE,
+    FOREIGN KEY (classroomId) REFERENCES ClassroomDto(id) ON DELETE CASCADE,
+    FOREIGN KEY (teacherId) REFERENCES TeacherDto(id) ON DELETE CASCADE,
+    FOREIGN KEY (subjectId) REFERENCES SubjectDto(id) ON DELETE CASCADE
+);
+
+selectAll:
+SELECT * FROM ChangeDto;
+
+selectWithParameters:
+SELECT * FROM ChangeDto
+WHERE (:limit IS NULL OR :limit = 0 OR :limit > 0)
+AND (:offset IS NULL OR :offset = 0 OR :offset > 0)
+AND (:date IS NULL OR date = :date)
+AND (:isNumerator IS NULL OR isNumerator = :isNumerator)
+AND (:groupId IS NULL OR groupId = :groupId)
+AND (:teacherId IS NULL OR teacherId = :teacherId)
+LIMIT COALESCE(:limit, 1000000000)
+OFFSET COALESCE(:offset, 0);
+
+selectWhereId:
+SELECT * FROM ChangeDto WHERE id = :id;
+
+deleteWhereId:
+DELETE FROM ChangeDto WHERE id = :id;
+
+updateWhereId:
+UPDATE ChangeDto SET
+    groupId = :groupId,
+    classroomId = :classroomId,
+    teacherId = :teacherId,
+    subjectId = :subjectId,
+    eventName = :eventName,
+    isSubject = :isSubject,
+    lessonNumber = :lessonNumber,
+    date = :date,
+    isNumerator = :isNumerator
+WHERE id = :id;
+
+insertModel:
+INSERT INTO ChangeDto(
+    groupId,
+    classroomId,
+    teacherId,
+    subjectId,
+    eventName,
+    isSubject,
+    lessonNumber,
+    date,
+    isNumerator
+) VALUES ?;

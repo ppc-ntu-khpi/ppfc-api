@@ -1,0 +1,50 @@
+CREATE TABLE IF NOT EXISTS TeacherDto (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    firstName TEXT NOT NULL,
+    lastName TEXT NOT NULL,
+    middleName TEXT NOT NULL,
+    disciplineId INTEGER NOT NULL,
+    isHeadTeacher INTEGER NOT NULL,
+    FOREIGN KEY (disciplineId) REFERENCES DisciplineDto(id) ON DELETE CASCADE
+);
+
+selectAll:
+SELECT * FROM TeacherDto;
+
+selectWithParameters:
+SELECT * FROM TeacherDto
+WHERE (:limit IS NULL OR :limit = 0 OR :limit > 0)
+AND (:offset IS NULL OR :offset = 0 OR :offset > 0)
+AND (:searchQuery IS NULL OR firstName LIKE '%' || :searchQuery || '%' OR lastName LIKE '%' || :searchQuery || '%')
+AND (:disciplineId IS NULL OR disciplineId = :disciplineId)
+LIMIT COALESCE(:limit, 1000000000)
+OFFSET COALESCE(:offset, 0);
+
+selectWhereId:
+SELECT * FROM TeacherDto WHERE id = :id;
+
+selectWhereFirstAndLastName:
+SELECT * FROM TeacherDto
+WHERE firstName = :firstName
+AND lastName = :lastName;
+
+deleteWhereId:
+DELETE FROM TeacherDto WHERE id = :id;
+
+updateWhereId:
+UPDATE TeacherDto SET
+    firstName = :firstName,
+    lastName = :lastName,
+    middleName = :middleName,
+    disciplineId = :disciplineId,
+    isHeadTeacher = :isHeadTeacher
+WHERE id = :id;
+
+insertModel:
+INSERT INTO TeacherDto(
+    firstName,
+    lastName,
+    middleName,
+    disciplineId,
+    isHeadTeacher
+) VALUES ?;

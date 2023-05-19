@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Завантаження файлів</title>
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMCIgd2lkdGg9IjUxMi4wMDAwMDBwdCIgaGVpZ2h0PSI1MTIuMDAwMDAwcHQiIHZpZXdCb3g9IjAgMCA1MTIuMDAwMDAwIDUxMi4wMDAwMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIG1lZXQiPgoKPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMC4wMDAwMDAsNTEyLjAwMDAwMCkgc2NhbGUoMC4xMDAwMDAsLTAuMTAwMDAwKSIgZmlsbD0iIzRjYWY1MCIgc3Ryb2tlPSJub25lIj4KPHBhdGggZD0iTTI1MTAgNDkwMSBjLTE0IC00IC0zOSAtMTUgLTU1IC0yNCAtMTcgLTggLTMzMCAtMzE2IC02OTcgLTY4NCAtNjA4IC02MDkgLTY2NyAtNjcyIC02NzggLTcxMyAtNDMgLTE2MyA4OSAtMzA1IDI1MCAtMjcwIGw1NSAxMiA0NzUgNDc0IGMyNjEgMjYxIDQ3OSA0NzQgNDgzIDQ3NCA0IDAgNyAtNjE0IDcgLTEzNjUgMCAtMTMyNCAxIC0xMzY3IDE5IC0xNDAzIDg1IC0xNjYgMzE1IC0xNjAgMzg1IDEwIDE0IDMzIDE2IDE5MCAxNiAxMzk4IDAgNzQ4IDMgMTM2MCA3IDEzNjAgNCAwIDIyMiAtMjEzIDQ4MyAtNDc0IGw0NzUgLTQ3NCA1NSAtMTIgYzE2MSAtMzUgMjkzIDEwNyAyNTAgMjcwIC0xMSA0MSAtNzAgMTA0IC02NzggNzEzIC0zNzYgMzc3IC02ODMgNjc3IC03MDQgNjg4IC00NCAyMyAtMTEyIDMyIC0xNDggMjB6IiBmaWxsPSIjNGNhZjUwIi8+CjxwYXRoIGQ9Ik0zNjggMjMzOCBjLTYyIC0xNyAtMTI1IC04MSAtMTQ0IC0xNDQgLTIzIC03OSAtMTUgLTEwNjQgOSAtMTE2NSA5NiAtMzk4IDM3MiAtNjg2IDc1MiAtNzg0IDEzMiAtMzQgMjM3IC0zNiAxNjQ1IC0zMiAxNTE2IDQgMTQyMSAwIDE1OTEgNTggMjc5IDk0IDUyMyAzMzUgNjIyIDYxMyA1OSAxNjkgNTkgMTY4IDY0IDcyNiA1IDU4MyA1IDU5MyAtNTggNjY0IC05NSAxMDcgLTI2NCA5MSAtMzM2IC0zMiBsLTI4IC00NyAtNSAtNTQwIGMtNiAtNTIzIC02IC01NDIgLTI3IC01OTggLTc2IC0yMDEgLTIwMyAtMzI1IC00MDMgLTM5MyAtNTMgLTE4IC0xMTQgLTE5IC0xNDkwIC0xOSAtMTM4MSAwIC0xNDM3IDEgLTE0OTAgMTkgLTEyNCA0MiAtMjIwIDEwNyAtMjk3IDE5OCAtNDcgNTYgLTEwOCAxODcgLTEyMiAyNjIgLTcgMzggLTExIDI0MyAtMTEgNTU3IGwwIDQ5NyAtMjggNTMgYy00NiA4OSAtMTQ5IDEzNCAtMjQ0IDEwN3oiIGZpbGw9IiM0Y2FmNTAiLz4KPC9nPgo8L3N2Zz4=">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f7f7f7;
+      }
+      h1 {
+        text-align: center;
+        color: #4CAF50;
+      }
+      form {
+        margin: 0 auto;
+        width: 400px;
+        padding: 20px;
+        border: none;
+        background-color: #fff;
+        box-shadow: 0 0 5px #ccc;
+        border-radius: 20px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        color: #666;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      input[type="text"],
+      input[type="password"],
+      input[type="file"] {
+        display: block;
+        margin-bottom: 20px;
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        box-sizing: border-box;
+      }
+      input[type="submit"] {
+        display: block;
+        margin: 0 auto;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: #fff;
+        border: none;
+        border-radius: 20px;
+        font-size: 18px;
+        cursor: pointer;
+      }
+      input[type="checkbox"] {
+        scale: 1.4;
+        display: inline-block;
+        vertical-align: middle;
+      }
+      label[for="clearOldFiles"] {
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 5px;
+        margin-bottom: 20px;
+      }
+      input[type="submit"]:hover {
+        background-color: #388E3C;
+      }
+
+    </style>
+</head>
+<body>
+<h1>Завантаження файлів</h1>
+<form id="uploadForm" enctype="multipart/form-data">
+    <label for="username">Ім'я користувача:</label>
+    <input type="text" id="username" name="username">
+    <label for="password">Пароль:</label>
+    <input type="password" id="password" name="password">
+    <label for="savePath">Шлях:</label>
+    <input type="text" id="savePath" name="savePath">
+    <label for="files">Виберіть файли:</label>
+    <input type="file" id="files" name="files[]" multiple>
+    <label for="clearOldFiles">
+        <input type="checkbox" id="clearOldFiles" name="clearOldFiles"> Очистити попередні файли?
+    </label>
+    <input type="submit" value="Завантажити" onclick="uploadFiles(event)">
+</form>
+<script>
+  function uploadFiles(event) {
+    event.preventDefault();
+    const form = document.getElementById("uploadForm");
+    const username = form.elements["username"].value;
+    const password = form.elements["password"].value;
+    const savePath = form.elements["savePath"].value;
+    const files = form.elements["files"].files;
+    const clearOldFiles = document.getElementById('clearOldFiles').checked;
+
+    fetch("http://ppfc.us-east-2.elasticbeanstalk.com/api/authenticate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === "SUCCESS") {
+        const accessToken = data.accessToken;
+
+        const url = `/uploadFiles?savePath=${savePath}&clearOldFiles=${clearOldFiles}`;
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+          formData.append("files[]", files[i]);
+        }
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${accessToken}`
+          },
+          body: formData
+        })
+        .then(response => {
+          if (response.ok) {
+            alert("Файли успішно завантажено!");
+            form.reset();
+          } else {
+            alert("Помилка завантаження файлів.");
+          }
+        });
+      } else {
+        alert("Помилка автентифікації.");
+      }
+    });
+  }
+
+</script>
+</body>
+</html>

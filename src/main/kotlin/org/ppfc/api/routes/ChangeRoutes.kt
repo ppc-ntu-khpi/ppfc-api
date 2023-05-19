@@ -1,0 +1,90 @@
+package org.ppfc.api.routes
+
+import io.ktor.http.*
+import io.ktor.server.application.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
+import org.koin.ktor.ext.inject
+import org.ppfc.api.common.StringResource
+import org.ppfc.api.model.service.change.ChangeRequest
+import org.ppfc.api.service.abstraction.ChangeService
+import org.ppfc.api.service.standardServiceResponseHandler
+
+fun Route.changeRouting() {
+    val changeService: ChangeService by inject()
+
+    route("/change") {
+        get {
+            standardServiceResponseHandler(
+                result = {
+                    changeService.getAll(
+                        offset = call.request.queryParameters["offset"]?.toLongOrNull(),
+                        limit = call.request.queryParameters["limit"]?.toLongOrNull(),
+                        date = call.request.queryParameters["date"],
+                        isNumerator = call.request.queryParameters["isNumerator"]?.toBooleanStrictOrNull(),
+                        groupId = call.request.queryParameters["groupId"]?.toLongOrNull(),
+                        groupNumber = call.request.queryParameters["groupNumber"]?.toLongOrNull(),
+                        teacherId = call.request.queryParameters["teacherId"]?.toLongOrNull()
+                    )
+                },
+                call = call
+            )
+        }
+
+        get("{id?}") {
+            val id = call.parameters["id"]?.toLongOrNull() ?: run {
+                call.respond(status = HttpStatusCode.BadRequest, message = StringResource.idPathParameterNotFound)
+                return@get
+            }
+
+            standardServiceResponseHandler(
+                result = {
+                    changeService.get(id)
+                },
+                call = call
+            )
+        }
+
+        post {
+            val change = call.receive<ChangeRequest>()
+
+            standardServiceResponseHandler(
+                result = {
+                    changeService.add(change = change)
+                },
+                call = call
+            )
+        }
+
+        put("{id?}") {
+            val id = call.parameters["id"]?.toLongOrNull() ?: run {
+                call.respond(status = HttpStatusCode.BadRequest, message = StringResource.idPathParameterNotFound)
+                return@put
+            }
+
+            val change = call.receive<ChangeRequest>()
+
+            standardServiceResponseHandler(
+                result = {
+                    changeService.update(id = id, change = change)
+                },
+                call = call
+            )
+        }
+
+        delete("{id?}") {
+            val id = call.parameters["id"]?.toLongOrNull() ?: run {
+                call.respond(status = HttpStatusCode.BadRequest, message = StringResource.idPathParameterNotFound)
+                return@delete
+            }
+
+            standardServiceResponseHandler(
+                result = {
+                    changeService.delete(id = id)
+                },
+                call = call
+            )
+        }
+    }
+}

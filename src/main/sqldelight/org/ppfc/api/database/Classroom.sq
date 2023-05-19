@@ -1,0 +1,31 @@
+CREATE TABLE IF NOT EXISTS ClassroomDto (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL
+);
+
+selectAll:
+SELECT * FROM ClassroomDto;
+
+selectWithParameters:
+SELECT * FROM ClassroomDto
+WHERE (:limit IS NULL OR :limit = 0 OR :limit > 0)
+AND (:offset IS NULL OR :offset = 0 OR :offset > 0)
+AND (:searchQuery IS NULL OR name LIKE '%' || :searchQuery || '%')
+LIMIT COALESCE(:limit, 1000000000)
+OFFSET COALESCE(:offset, 0);
+
+selectWhereId:
+SELECT * FROM ClassroomDto WHERE id = :id;
+
+deleteWhereId:
+DELETE FROM ClassroomDto WHERE id = :id;
+
+updateWhereId:
+UPDATE ClassroomDto SET
+    name = :name
+WHERE id = :id;
+
+insertModel:
+INSERT INTO ClassroomDto(
+    name
+) VALUES ?;
