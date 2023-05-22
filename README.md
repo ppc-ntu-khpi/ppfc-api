@@ -60,8 +60,7 @@
   - [Видалити користувача](#видалити-користувача)
 - [Схема бази даних](#схема-бази-даних)
 
-
-Базова URL: `http://ppfc.eu-central-1.elasticbeanstalk.com/api`
+Базова URL: `http://ppfc.us-east-2.elasticbeanstalk.com/api`
 
 ## Автентифікація
 
