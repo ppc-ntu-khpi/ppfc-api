@@ -73,15 +73,22 @@ fun Route.scheduleRouting() {
             )
         }
 
-        delete("{id?}") {
-            val id = call.parameters["id"]?.toLongOrNull() ?: run {
-                call.respond(status = HttpStatusCode.BadRequest, message = StringResource.idPathParameterNotFound)
+        delete("{ids?}") {
+            val idsText = call.parameters["ids"] ?: run {
+                call.respond(status = HttpStatusCode.BadRequest, message = StringResource.idsPathParameterNotFound)
+                return@delete
+            }
+
+            val ids = idsText.toIdsList() ?: run {
+                call.respond(status = HttpStatusCode.BadRequest, message = StringResource.argumentFormatError)
                 return@delete
             }
 
             standardServiceResponseHandler(
                 result = {
-                    scheduleService.delete(id = id)
+                    ids.forEach { id ->
+                        scheduleService.delete(id = id)
+                    }
                 },
                 call = call
             )

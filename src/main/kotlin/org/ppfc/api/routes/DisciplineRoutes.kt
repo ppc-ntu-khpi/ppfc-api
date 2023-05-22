@@ -69,15 +69,22 @@ fun Route.disciplineRouting() {
             )
         }
 
-        delete("{id?}") {
-            val id = call.parameters["id"]?.toLongOrNull() ?: run {
-                call.respond(status = HttpStatusCode.BadRequest, message = StringResource.idPathParameterNotFound)
+        delete("{ids?}") {
+            val idsText = call.parameters["ids"] ?: run {
+                call.respond(status = HttpStatusCode.BadRequest, message = StringResource.idsPathParameterNotFound)
+                return@delete
+            }
+
+            val ids = idsText.toIdsList() ?: run {
+                call.respond(status = HttpStatusCode.BadRequest, message = StringResource.argumentFormatError)
                 return@delete
             }
 
             standardServiceResponseHandler(
                 result = {
-                    disciplineService.delete(id = id)
+                    ids.forEach { id ->
+                        disciplineService.delete(id = id)
+                    }
                 },
                 call = call
             )
