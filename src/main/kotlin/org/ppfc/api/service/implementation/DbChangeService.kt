@@ -140,6 +140,7 @@ class DbChangeService(private val database: Database) : ChangeService, KoinCompo
             isSubject = isSubject.toLong(),
             lessonNumber = change.lessonNumber,
             date = change.date,
+            dayNumber = change.dayNumber,
             isNumerator = change.isNumerator.toLong(),
             id = id
         )

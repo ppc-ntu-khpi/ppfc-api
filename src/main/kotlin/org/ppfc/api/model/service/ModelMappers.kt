@@ -137,6 +137,7 @@ fun ChangeDto.toResponse(
     eventName = this.eventName,
     isSubject = this.isSubject.toBoolean(),
     lessonNumber = this.lessonNumber,
+    dayNumber = this.dayNumber,
     date = this.date,
     isNumerator = this.isNumerator.toBoolean()
 )
@@ -150,6 +151,7 @@ fun ChangeRequest.toDto(isSubject: Boolean) = ChangeDto(
     eventName = this.eventName,
     isSubject = isSubject.toLong(),
     lessonNumber = this.lessonNumber,
+    dayNumber = this.dayNumber,
     date = this.date,
     isNumerator = this.isNumerator.toLong()
 )

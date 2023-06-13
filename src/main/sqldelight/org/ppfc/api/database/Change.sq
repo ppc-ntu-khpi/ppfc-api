@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS ChangeDto (
     lessonNumber INTEGER NOT NULL,
     date TEXT NOT NULL,
     isNumerator INTEGER NOT NULL,
+    dayNumber INTEGER NOT NULL,
     FOREIGN KEY (groupId) REFERENCES GroupDto(id) ON DELETE CASCADE,
     FOREIGN KEY (classroomId) REFERENCES ClassroomDto(id) ON DELETE CASCADE,
     FOREIGN KEY (teacherId) REFERENCES TeacherDto(id) ON DELETE CASCADE,
@@ -44,6 +45,7 @@ UPDATE ChangeDto SET
     eventName = :eventName,
     isSubject = :isSubject,
     lessonNumber = :lessonNumber,
+    dayNumber = :dayNumber,
     date = :date,
     isNumerator = :isNumerator
 WHERE id = :id;
@@ -57,6 +59,7 @@ INSERT INTO ChangeDto(
     eventName,
     isSubject,
     lessonNumber,
+    dayNumber,
     date,
     isNumerator
 ) VALUES ?;
