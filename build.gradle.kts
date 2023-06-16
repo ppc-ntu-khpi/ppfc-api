@@ -57,6 +57,8 @@ dependencies {
     implementation("aws.sdk.kotlin:workspaces:$aws_sdk_version")
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    implementation("org.apache.poi:poi:5.2.3")
+    implementation("org.apache.poi:poi-ooxml:5.2.3")
 }
 
 ktor {
@@ -80,10 +82,12 @@ tasks {
         val outputFile = file("/build/libs/run.bat")
         outputs.file(outputFile)
         doLast {
-            outputFile.appendText("""
+            outputFile.appendText(
+                """
                 java -jar api.jar
                 pause
-            """.trimIndent())
+            """.trimIndent()
+            )
         }
     }
 
@@ -91,9 +95,11 @@ tasks {
         val outputFile = file("/build/libs/Procfile")
         outputs.file(outputFile)
         doLast {
-            outputFile.appendText("""
+            outputFile.appendText(
+                """
                 web: java -Xms256m -jar api.jar
-            """.trimIndent())
+            """.trimIndent()
+            )
         }
     }
 

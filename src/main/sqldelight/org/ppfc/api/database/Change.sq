@@ -1,16 +1,14 @@
 CREATE TABLE IF NOT EXISTS ChangeDto (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    groupId INTEGER NOT NULL,
-    classroomId INTEGER NOT NULL,
+    classroomId INTEGER,
     teacherId INTEGER,
     subjectId INTEGER,
     eventName TEXT,
     isSubject INTEGER NOT NULL,
-    lessonNumber INTEGER NOT NULL,
+    lessonNumber INTEGER,
     date TEXT NOT NULL,
     isNumerator INTEGER NOT NULL,
     dayNumber INTEGER NOT NULL,
-    FOREIGN KEY (groupId) REFERENCES GroupDto(id) ON DELETE CASCADE,
     FOREIGN KEY (classroomId) REFERENCES ClassroomDto(id) ON DELETE CASCADE,
     FOREIGN KEY (teacherId) REFERENCES TeacherDto(id) ON DELETE CASCADE,
     FOREIGN KEY (subjectId) REFERENCES SubjectDto(id) ON DELETE CASCADE
@@ -25,7 +23,6 @@ WHERE (:limit IS NULL OR :limit = 0 OR :limit > 0)
 AND (:offset IS NULL OR :offset = 0 OR :offset > 0)
 AND (:date IS NULL OR date = :date)
 AND (:isNumerator IS NULL OR isNumerator = :isNumerator)
-AND (:groupId IS NULL OR groupId = :groupId)
 AND (:teacherId IS NULL OR teacherId = :teacherId)
 LIMIT COALESCE(:limit, 1000000000)
 OFFSET COALESCE(:offset, 0);
@@ -38,7 +35,6 @@ DELETE FROM ChangeDto WHERE id = :id;
 
 updateWhereId:
 UPDATE ChangeDto SET
-    groupId = :groupId,
     classroomId = :classroomId,
     teacherId = :teacherId,
     subjectId = :subjectId,
@@ -52,7 +48,6 @@ WHERE id = :id;
 
 insertModel:
 INSERT INTO ChangeDto(
-    groupId,
     classroomId,
     teacherId,
     subjectId,
@@ -63,3 +58,6 @@ INSERT INTO ChangeDto(
     date,
     isNumerator
 ) VALUES ?;
+
+getLastId:
+SELECT MAX(id) FROM ChangeDto LIMIT 1;

@@ -7,12 +7,15 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 import org.ppfc.api.common.StringResource
+import org.ppfc.api.model.GenerateChangesDocumentResponse
 import org.ppfc.api.model.service.change.ChangeRequest
+import org.ppfc.api.service.ChangesWordDocumentGenerator
 import org.ppfc.api.service.abstraction.ChangeService
 import org.ppfc.api.service.standardServiceResponseHandler
 
 fun Route.changeRouting() {
     val changeService: ChangeService by inject()
+    val changesWordDocumentGenerator: ChangesWordDocumentGenerator by inject()
 
     route("/change") {
         get {
@@ -27,6 +30,30 @@ fun Route.changeRouting() {
                         groupNumber = call.request.queryParameters["groupNumber"]?.toLongOrNull(),
                         teacherId = call.request.queryParameters["teacherId"]?.toLongOrNull()
                     )
+                },
+                call = call
+            )
+        }
+
+        get("/generateWordDocument") {
+            standardServiceResponseHandler(
+                result = {
+                    val date = call.request.queryParameters["date"] ?: run {
+                        call.respond(status = HttpStatusCode.BadRequest, message = StringResource.dateParameterNotFound)
+                        return@get
+                    }
+
+                    val changes = changeService.getAll(date = date)
+                    val fileBytes = changesWordDocumentGenerator.generate(changes = changes)
+
+                    if(fileBytes == null) {
+                        GenerateChangesDocumentResponse(error = "NO_CHANGES")
+                    } else {
+                        GenerateChangesDocumentResponse(
+                            fileName = "$date.docx",
+                            fileBytes = fileBytes
+                        )
+                    }
                 },
                 call = call
             )

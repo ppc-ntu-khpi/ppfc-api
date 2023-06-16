@@ -124,13 +124,13 @@ fun ScheduleRequest.toDto(isSubject: Boolean) = ScheduleDto(
 )
 
 fun ChangeDto.toResponse(
-    group: GroupResponse,
-    classroom: ClassroomResponse,
+    groups: Set<GroupResponse>,
+    classroom: ClassroomResponse?,
     teacher: TeacherResponse?,
     subject: SubjectResponse?
 ) = ChangeResponse(
     id = this.id,
-    group = group,
+    groups = groups,
     classroom = classroom,
     teacher = teacher,
     subject = subject,
@@ -144,7 +144,6 @@ fun ChangeDto.toResponse(
 
 fun ChangeRequest.toDto(isSubject: Boolean) = ChangeDto(
     id = 0L,
-    groupId = this.groupId,
     classroomId = this.classroomId,
     teacherId = this.teacherId,
     subjectId = this.subjectId,

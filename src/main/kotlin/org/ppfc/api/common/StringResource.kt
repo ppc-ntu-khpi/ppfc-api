@@ -7,6 +7,7 @@ object StringResource {
     const val resourceNotFound = "Ресурс не знайдено."
     const val tokenIsNotValidOrExpired = "Токен недійсний або термін його дії минув."
     const val idPathParameterNotFound = "Параметр шляху ідентифікатора 'id' відсутній."
+    const val dateParameterNotFound = "Параметр 'date' відсутній."
     const val idsPathParameterNotFound = "Параметр шляху ідентифікатора 'ids' відсутній."
     const val argumentFormatError = "Невірний формат аргумента."
     const val fieldsSubjectIdAndEventNameAreNull =
@@ -14,6 +15,5 @@ object StringResource {
     const val fieldsGroupIdAndTeacherIdAreNull =
         "У моделі даних має бути хоча б одне ненульове поле groupId або teacherId."
     const val invalidDateFormat = "Формат дати невірний."
-    const val foreignKeyError = "Помилка зовнішнього ключа."
     const val error = "Помилка"
 }

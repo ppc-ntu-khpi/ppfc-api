@@ -8,6 +8,7 @@ import org.ppfc.api.common.LookupTable
 import org.ppfc.api.common.StringResource
 import org.ppfc.api.common.toLong
 import org.ppfc.api.common.validateDateFormat
+import org.ppfc.api.database.ChangeDtoAndGroupDto
 import org.ppfc.api.database.Database
 import org.ppfc.api.model.service.change.ChangeRequest
 import org.ppfc.api.model.service.change.ChangeResponse
@@ -27,6 +28,33 @@ class DbChangeService(private val database: Database) : ChangeService, KoinCompo
     private val teacherService: TeacherService by inject()
     private val subjectService: SubjectService by inject()
 
+    private suspend fun getLastChangeId(): Long = withContext(Dispatchers.IO) {
+        return@withContext database.changeQueries.getLastId().executeAsOne().MAX ?: -1
+    }
+
+    private suspend fun deleteGroupsWhereChange(changeId: Long) = withContext(Dispatchers.IO) {
+        database.changeDtoAndGroupDtoQueries.deleteWhereChangeId(changeId = changeId)
+    }
+
+    private suspend fun getGroupsWhereChange(changeId: Long): Set<GroupResponse> = withContext(Dispatchers.IO) {
+        return@withContext database.changeDtoAndGroupDtoQueries.selectWhereChangeId(
+            changeId = changeId
+        ).executeAsList().mapNotNull { changeDtoAndGroupDto ->
+            groupService.get(id = changeDtoAndGroupDto.groupId)
+        }.toSet()
+    }
+
+    private suspend fun insertGroupsWhereChange(changeId: Long, groupsIds: Set<Long>) = withContext(Dispatchers.IO) {
+        groupsIds.forEach { groupId ->
+            database.changeDtoAndGroupDtoQueries.insertModel(
+                ChangeDtoAndGroupDto(
+                    changeId = changeId,
+                    groupId = groupId
+                )
+            )
+        }
+    }
+
     override suspend fun add(change: ChangeRequest) = withContext(Dispatchers.IO) {
         if (change.subjectId == null && change.eventName == null) {
             throw MalformedModelException(message = StringResource.fieldsSubjectIdAndEventNameAreNull)
@@ -38,6 +66,7 @@ class DbChangeService(private val database: Database) : ChangeService, KoinCompo
         }
 
         database.changeQueries.insertModel(change.toDto(isSubject = isSubject))
+        insertGroupsWhereChange(changeId = getLastChangeId(), groupsIds = change.groupsIds)
     }
 
     override suspend fun getAll(
@@ -54,26 +83,22 @@ class DbChangeService(private val database: Database) : ChangeService, KoinCompo
         val teachersLookupTable = LookupTable<Long, TeacherResponse>()
         val subjectsLookupTable = LookupTable<Long, SubjectResponse>()
 
-        val groupIdParam = groupId ?: groupNumber?.let {
-            groupService.getByNumber(groupNumber)?.id ?: 0L
-        }
-
         return@withContext try {
             database.changeQueries.selectWithParameters(
                 offset = offset,
                 limit = limit,
                 date = date,
                 isNumerator = isNumerator?.toLong(),
-                groupId = groupIdParam,
                 teacherId = teacherId
             ).executeAsList().mapNotNull { changeDto ->
-                val group = groupsLookupTable.getValue(changeDto.groupId) {
-                    groupService.get(changeDto.groupId)
-                } ?: return@mapNotNull null
+                val groups = getGroupsWhereChange(changeId = changeDto.id)
+                if(groups.isEmpty()) return@mapNotNull null
 
-                val classroom = classroomsLookupTable.getValue(changeDto.classroomId) {
-                    classroomService.get(changeDto.classroomId)
-                } ?: return@mapNotNull null
+                val classroom = changeDto.classroomId?.let { classroomId ->
+                    classroomsLookupTable.getValue(classroomId) {
+                        classroomService.get(classroomId)
+                    }
+                }
 
                 val teacher = changeDto.teacherId?.let { teacherId ->
                     teachersLookupTable.getValue(teacherId) {
@@ -88,7 +113,7 @@ class DbChangeService(private val database: Database) : ChangeService, KoinCompo
                 }
 
                 changeDto.toResponse(
-                    group = group,
+                    groups = groups,
                     classroom = classroom,
                     teacher = teacher,
                     subject = subject
@@ -106,8 +131,12 @@ class DbChangeService(private val database: Database) : ChangeService, KoinCompo
         val change = database.changeQueries.selectWhereId(id = id).executeAsOneOrNull()
             ?: return@withContext null
 
-        val group = groupService.get(change.groupId) ?: return@withContext null
-        val classroom = classroomService.get(change.classroomId) ?: return@withContext null
+        val groups = getGroupsWhereChange(changeId = change.id)
+        if(groups.isEmpty()) return@withContext null
+
+        val classroom = change.classroomId?.let { classroomId ->
+            classroomService.get(classroomId)
+        }
 
         val teacher = change.teacherId?.let { teacherId ->
             teacherService.get(teacherId)
@@ -118,7 +147,7 @@ class DbChangeService(private val database: Database) : ChangeService, KoinCompo
         }
 
         return@withContext change.toResponse(
-            group = group,
+            groups = groups,
             classroom = classroom,
             teacher = teacher,
             subject = subject
@@ -131,8 +160,10 @@ class DbChangeService(private val database: Database) : ChangeService, KoinCompo
         }
         val isSubject = change.eventName == null
 
+        deleteGroupsWhereChange(changeId = id)
+        insertGroupsWhereChange(changeId = id, groupsIds = change.groupsIds)
+
         database.changeQueries.updateWhereId(
-            groupId = change.groupId,
             classroomId = change.classroomId,
             teacherId = change.teacherId,
             subjectId = change.subjectId,
@@ -147,6 +178,7 @@ class DbChangeService(private val database: Database) : ChangeService, KoinCompo
     }
 
     override suspend fun delete(id: Long) = withContext(Dispatchers.IO) {
+        deleteGroupsWhereChange(changeId = id)
         database.changeQueries.deleteWhereId(id = id)
     }
 }

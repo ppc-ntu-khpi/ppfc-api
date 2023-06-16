@@ -1,0 +1,21 @@
+CREATE TABLE IF NOT EXISTS ChangeDtoAndGroupDto (
+    changeId INTEGER NOT NULL,
+    groupId INTEGER NOT NULL,
+    FOREIGN KEY (changeId) REFERENCES ChangeDto(id) ON DELETE CASCADE,
+    FOREIGN KEY (groupId) REFERENCES GroupDto(id) ON DELETE CASCADE
+);
+
+selectAll:
+SELECT * FROM ChangeDtoAndGroupDto;
+
+selectWhereChangeId:
+SELECT * FROM ChangeDtoAndGroupDto WHERE changeId = :changeId;
+
+deleteWhereChangeId:
+DELETE FROM ChangeDtoAndGroupDto WHERE changeId = :changeId;
+
+insertModel:
+INSERT INTO ChangeDtoAndGroupDto(
+    changeId,
+    groupId
+) VALUES ?;
