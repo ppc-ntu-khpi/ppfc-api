@@ -8,6 +8,7 @@ import org.ppfc.api.data.config.FileConfigProvider
 import org.ppfc.api.database.Database
 import org.ppfc.api.security.auth.AuthProvider
 import org.ppfc.api.security.auth.CognitoAuthProvider
+import org.ppfc.api.service.ChangesWordDocumentGenerator
 import org.ppfc.api.service.abstraction.*
 import org.ppfc.api.service.implementation.*
 import org.sqlite.SQLiteConfig
@@ -72,5 +73,9 @@ val appModule = module {
 
     single<UserService> {
         DbUserService(database = get())
+    }
+
+    single {
+        ChangesWordDocumentGenerator()
     }
 }
