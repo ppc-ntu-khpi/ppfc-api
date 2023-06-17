@@ -25,9 +25,11 @@ suspend inline fun <reified T> standardServiceResponseHandler(
             )
         }
     }.onFailure { cause ->
+        cause.printStackTrace()
+
         call.respond(
             status = HttpStatusCode.InternalServerError,
-            message = "Error: ${cause::class.simpleName}."
+            message = "ERROR"
         )
     }
 }
