@@ -17,4 +17,5 @@ interface ScheduleService {
     suspend fun get(id: Long): ScheduleResponse?
     suspend fun update(id: Long, schedule: ScheduleRequest)
     suspend fun delete(id: Long)
+    suspend fun deleteAll()
 }

@@ -93,5 +93,14 @@ fun Route.scheduleRouting() {
                 call = call
             )
         }
+
+        delete("/all") {
+            standardServiceResponseHandler(
+                result = {
+                    scheduleService.deleteAll()
+                },
+                call = call
+            )
+        }
     }
 }

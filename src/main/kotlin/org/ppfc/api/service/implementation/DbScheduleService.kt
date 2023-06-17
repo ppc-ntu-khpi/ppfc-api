@@ -136,4 +136,8 @@ class DbScheduleService(private val database: Database) : ScheduleService, KoinC
     override suspend fun delete(id: Long) = withContext(Dispatchers.IO) {
         database.scheduleQueries.deleteWhereId(id = id)
     }
+
+    override suspend fun deleteAll() {
+        database.scheduleQueries.deleteAll()
+    }
 }

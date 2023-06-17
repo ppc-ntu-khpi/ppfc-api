@@ -35,6 +35,9 @@ SELECT * FROM ScheduleDto WHERE id = :id;
 deleteWhereId:
 DELETE FROM ScheduleDto WHERE id = :id;
 
+deleteAll:
+DELETE FROM ScheduleDto;
+
 updateWhereId:
 UPDATE ScheduleDto SET
     groupId = :groupId,
