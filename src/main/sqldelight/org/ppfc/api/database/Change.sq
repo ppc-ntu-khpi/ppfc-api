@@ -33,6 +33,9 @@ SELECT * FROM ChangeDto WHERE id = :id;
 deleteWhereId:
 DELETE FROM ChangeDto WHERE id = :id;
 
+deleteAll:
+DELETE FROM ChangeDto;
+
 updateWhereId:
 UPDATE ChangeDto SET
     classroomId = :classroomId,

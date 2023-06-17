@@ -178,7 +178,10 @@ class DbChangeService(private val database: Database) : ChangeService, KoinCompo
     }
 
     override suspend fun delete(id: Long) = withContext(Dispatchers.IO) {
-        deleteGroupsWhereChange(changeId = id)
         database.changeQueries.deleteWhereId(id = id)
+    }
+
+    override suspend fun deleteAll() {
+        database.changeQueries.deleteAll()
     }
 }

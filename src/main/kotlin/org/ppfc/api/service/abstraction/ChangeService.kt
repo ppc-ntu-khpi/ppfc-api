@@ -17,4 +17,5 @@ interface ChangeService {
     suspend fun get(id: Long): ChangeResponse?
     suspend fun update(id: Long, change: ChangeRequest)
     suspend fun delete(id: Long)
+    suspend fun deleteAll()
 }

@@ -120,5 +120,14 @@ fun Route.changeRouting() {
                 call = call
             )
         }
+
+        delete("/all") {
+            standardServiceResponseHandler(
+                result = {
+                    changeService.deleteAll()
+                },
+                call = call
+            )
+        }
     }
 }
