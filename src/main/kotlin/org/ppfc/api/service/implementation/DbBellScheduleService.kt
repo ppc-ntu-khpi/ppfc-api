@@ -9,7 +9,7 @@ import org.ppfc.api.model.service.toResponse
 import org.ppfc.api.service.abstraction.BellScheduleService
 
 class DbBellScheduleService(private val database: Database) : BellScheduleService {
-    override suspend fun add(bellScheduleItems: List<BellScheduleRequest>) = withContext(Dispatchers.IO) {
+    override suspend fun addAll(bellScheduleItems: List<BellScheduleRequest>) = withContext(Dispatchers.IO) {
         database.bellScheduleQueries.deleteAll()
         bellScheduleItems.forEach { item ->
             database.bellScheduleQueries.insertModel(item.toDto())

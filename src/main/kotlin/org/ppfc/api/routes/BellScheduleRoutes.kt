@@ -26,7 +26,7 @@ fun Route.bellScheduleRouting() {
 
             standardServiceResponseHandler(
                 result = {
-                    bellScheduleService.add(bellScheduleItems = bellScheduleItems)
+                    bellScheduleService.addAll(bellScheduleItems = bellScheduleItems)
                 },
                 call = call
             )
