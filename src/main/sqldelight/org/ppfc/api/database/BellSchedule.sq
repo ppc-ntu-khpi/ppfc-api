@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS BellScheduleDto (
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     lessonNumber INTEGER NOT NULL,
     startTimeMillis INTEGER NOT NULL,
     endTimeMillis INTEGER NOT NULL
@@ -8,19 +8,11 @@ CREATE TABLE IF NOT EXISTS BellScheduleDto (
 selectAll:
 SELECT * FROM BellScheduleDto;
 
-deleteWhereId:
-DELETE FROM BellScheduleDto WHERE id = :id;
-
-updateWhereId:
-UPDATE BellScheduleDto SET
-    lessonNumber = :lessonNumber,
-    startTimeMillis = :startTimeMillis,
-    endTimeMillis = :endTimeMillis
-WHERE id = :id;
+deleteAll:
+DELETE FROM BellScheduleDto;
 
 insertModel:
 INSERT INTO BellScheduleDto(
-    id,
     lessonNumber,
     startTimeMillis,
     endTimeMillis
