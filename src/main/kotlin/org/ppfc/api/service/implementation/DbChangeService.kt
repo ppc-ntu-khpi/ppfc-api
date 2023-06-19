@@ -94,7 +94,7 @@ class DbChangeService(private val database: Database) : ChangeService, KoinCompo
                 val groups = getGroupsWhereChange(changeId = changeDto.id)
                 if(groups.isEmpty()) return@mapNotNull null
 
-                if(groupId !in groups.map { it.id }) return@mapNotNull null
+                if(groupId != null && groupId !in groups.map { it.id }) return@mapNotNull null
 
                 val classroom = changeDto.classroomId?.let { classroomId ->
                     classroomsLookupTable.getValue(classroomId) {
