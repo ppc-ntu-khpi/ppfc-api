@@ -75,10 +75,6 @@ val appModule = module {
         DbUserService(database = get())
     }
 
-    single<BellScheduleService> {
-        DbBellScheduleService(database = get())
-    }
-
     single {
         ChangesWordDocumentGenerator()
     }

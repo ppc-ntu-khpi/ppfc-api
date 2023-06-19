@@ -3,8 +3,6 @@ package org.ppfc.api.model.service
 import org.ppfc.api.common.toBoolean
 import org.ppfc.api.common.toLong
 import org.ppfc.api.database.*
-import org.ppfc.api.model.service.bellschedule.BellScheduleRequest
-import org.ppfc.api.model.service.bellschedule.BellScheduleResponse
 import org.ppfc.api.model.service.change.ChangeRequest
 import org.ppfc.api.model.service.change.ChangeResponse
 import org.ppfc.api.model.service.classroom.ClassroomRequest
@@ -169,18 +167,4 @@ fun UserRequest.toDto(isGroup: Boolean) = UserDto(
     groupId = this.groupId,
     teacherId = this.teacherId,
     isGroup = isGroup.toLong()
-)
-
-fun BellScheduleDto.toResponse() = BellScheduleResponse(
-    id = id,
-    lessonNumber = lessonNumber,
-    startTimeMillis = startTimeMillis,
-    endTimeMillis = endTimeMillis
-)
-
-fun BellScheduleRequest.toDto() = BellScheduleDto(
-    id = 0L,
-    lessonNumber = lessonNumber,
-    startTimeMillis = startTimeMillis,
-    endTimeMillis = endTimeMillis
 )

@@ -20,7 +20,6 @@ fun Application.configureApiRouting() {
                 scheduleRouting()
                 changeRouting()
                 userRouting()
-                bellScheduleRouting()
             }
         }
     }
