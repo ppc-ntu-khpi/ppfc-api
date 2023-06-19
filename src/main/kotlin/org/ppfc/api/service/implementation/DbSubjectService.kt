@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023. Vitalii Kozyr
+ */
+
 package org.ppfc.api.service.implementation
 
 import kotlinx.coroutines.Dispatchers

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023. Vitalii Kozyr
+ */
+
 package org.ppfc.api.service.abstraction
 
 import org.ppfc.api.model.service.course.CourseRequest

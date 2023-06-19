@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023. Vitalii Kozyr
+ */
+
 package org.ppfc.api.security.auth
 
 import aws.sdk.kotlin.services.cognitoidentityprovider.CognitoIdentityProviderClient

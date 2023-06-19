@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023. Vitalii Kozyr
+ */
+
 package org.ppfc.api.plugins
 
 import io.ktor.serialization.kotlinx.json.*
