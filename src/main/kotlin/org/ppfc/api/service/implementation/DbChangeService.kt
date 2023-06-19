@@ -69,6 +69,12 @@ class DbChangeService(private val database: Database) : ChangeService, KoinCompo
         insertGroupsWhereChange(changeId = getLastChangeId(), groupsIds = change.groupsIds)
     }
 
+    override suspend fun addMultiple(changes: List<ChangeRequest>) {
+        changes.forEach { change ->
+            add(change = change)
+        }
+    }
+
     override suspend fun getAll(
         offset: Long?,
         limit: Long?,
@@ -177,6 +183,12 @@ class DbChangeService(private val database: Database) : ChangeService, KoinCompo
             isNumerator = change.isNumerator.toLong(),
             id = id
         )
+    }
+
+    override suspend fun updateMultiple(changes: Map<Long, ChangeRequest>) {
+        changes.forEach { change ->
+            update(id = change.key, change = change.value)
+        }
     }
 
     override suspend fun delete(id: Long) = withContext(Dispatchers.IO) {

@@ -5,6 +5,7 @@ import org.ppfc.api.model.service.change.ChangeResponse
 
 interface ChangeService {
     suspend fun add(change: ChangeRequest)
+    suspend fun addMultiple(changes: List<ChangeRequest>)
     suspend fun getAll(
         offset: Long? = null,
         limit: Long? = null,
@@ -16,6 +17,7 @@ interface ChangeService {
     ): List<ChangeResponse>
     suspend fun get(id: Long): ChangeResponse?
     suspend fun update(id: Long, change: ChangeRequest)
+    suspend fun updateMultiple(changes: Map<Long, ChangeRequest>)
     suspend fun delete(id: Long)
     suspend fun deleteAll()
 }

@@ -84,6 +84,17 @@ fun Route.changeRouting() {
             )
         }
 
+        post("/multiple") {
+            val changes = call.receive<List<ChangeRequest>>()
+
+            standardServiceResponseHandler(
+                result = {
+                    changeService.addMultiple(changes = changes)
+                },
+                call = call
+            )
+        }
+
         put("{id?}") {
             val id = call.parameters["id"]?.toLongOrNull() ?: run {
                 call.respond(status = HttpStatusCode.BadRequest, message = StringResource.idPathParameterNotFound)
@@ -95,6 +106,17 @@ fun Route.changeRouting() {
             standardServiceResponseHandler(
                 result = {
                     changeService.update(id = id, change = change)
+                },
+                call = call
+            )
+        }
+
+        put("/multiple") {
+            val changes = call.receive<Map<Long, ChangeRequest>>()
+
+            standardServiceResponseHandler(
+                result = {
+                    changeService.updateMultiple(changes = changes)
                 },
                 call = call
             )
