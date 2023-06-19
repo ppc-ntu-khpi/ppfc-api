@@ -5,6 +5,7 @@ import org.ppfc.api.model.service.schedule.ScheduleResponse
 
 interface ScheduleService {
     suspend fun add(schedule: ScheduleRequest)
+    suspend fun addMultiple(schedule: List<ScheduleRequest>)
     suspend fun getAll(
         offset: Long? = null,
         limit: Long? = null,
@@ -16,6 +17,7 @@ interface ScheduleService {
     ): List<ScheduleResponse>
     suspend fun get(id: Long): ScheduleResponse?
     suspend fun update(id: Long, schedule: ScheduleRequest)
+    suspend fun updateMultiple(schedule: Map<Long, ScheduleRequest>)
     suspend fun delete(id: Long)
     suspend fun deleteAll()
 }

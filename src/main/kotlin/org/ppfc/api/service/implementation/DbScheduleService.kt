@@ -33,6 +33,12 @@ class DbScheduleService(private val database: Database) : ScheduleService, KoinC
         database.scheduleQueries.insertModel(schedule.toDto(isSubject = isSubject))
     }
 
+    override suspend fun addMultiple(schedule: List<ScheduleRequest>) {
+        schedule.forEach { scheduleItem ->
+            add(schedule = scheduleItem)
+        }
+    }
+
     override suspend fun getAll(
         offset: Long?,
         limit: Long?,
@@ -131,6 +137,12 @@ class DbScheduleService(private val database: Database) : ScheduleService, KoinC
             isNumerator = schedule.isNumerator.toLong(),
             id = id
         )
+    }
+
+    override suspend fun updateMultiple(schedule: Map<Long, ScheduleRequest>) {
+        schedule.forEach { scheduleItem ->
+            update(id = scheduleItem.key, schedule = scheduleItem.value)
+        }
     }
 
     override suspend fun delete(id: Long) = withContext(Dispatchers.IO) {

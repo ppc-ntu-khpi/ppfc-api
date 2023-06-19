@@ -57,6 +57,17 @@ fun Route.scheduleRouting() {
             )
         }
 
+        post("/multiple") {
+            val schedule = call.receive<List<ScheduleRequest>>()
+
+            standardServiceResponseHandler(
+                result = {
+                    scheduleService.addMultiple(schedule = schedule)
+                },
+                call = call
+            )
+        }
+
         put("{id?}") {
             val id = call.parameters["id"]?.toLongOrNull() ?: run {
                 call.respond(status = HttpStatusCode.BadRequest, message = StringResource.idPathParameterNotFound)
@@ -68,6 +79,17 @@ fun Route.scheduleRouting() {
             standardServiceResponseHandler(
                 result = {
                     scheduleService.update(id = id, schedule = schedule)
+                },
+                call = call
+            )
+        }
+
+        put("/multiple") {
+            val schedule = call.receive<Map<Long, ScheduleRequest>>()
+
+            standardServiceResponseHandler(
+                result = {
+                    scheduleService.updateMultiple(schedule = schedule)
                 },
                 call = call
             )
