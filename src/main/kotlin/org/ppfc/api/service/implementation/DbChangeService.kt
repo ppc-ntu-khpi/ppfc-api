@@ -99,12 +99,11 @@ class DbChangeService(private val database: Database) : ChangeService, KoinCompo
                 limit = limit,
                 date = date,
                 isNumerator = isNumerator?.toLong(),
+                groupId = groupId,
                 teacherId = teacherId
             ).executeAsList().mapNotNull { changeDto ->
                 val groups = getGroupsWhereChange(changeId = changeDto.id)
                 if(groups.isEmpty()) return@mapNotNull null
-
-                if(groupId != null && groupId !in groups.map { it.id }) return@mapNotNull null
 
                 val classroom = changeDto.classroomId?.let { classroomId ->
                     classroomsLookupTable.getValue(classroomId) {

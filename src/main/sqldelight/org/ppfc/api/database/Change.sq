@@ -24,6 +24,9 @@ AND (:offset IS NULL OR :offset = 0 OR :offset > 0)
 AND (:date IS NULL OR date = :date)
 AND (:isNumerator IS NULL OR isNumerator = :isNumerator)
 AND (:teacherId IS NULL OR teacherId = :teacherId)
+AND (:groupId IS NULL OR id IN (
+    SELECT changeId FROM ChangeDtoAndGroupDto WHERE groupId = :groupId
+))
 LIMIT COALESCE(:limit, 1000000000)
 OFFSET COALESCE(:offset, 0);
 
