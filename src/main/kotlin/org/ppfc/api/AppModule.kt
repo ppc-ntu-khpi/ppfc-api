@@ -82,4 +82,8 @@ val appModule = module {
     single {
         ChangesWordDocumentGenerator()
     }
+
+    single<AccessKeyService> {
+        DbAccessKeyService(database = get())
+    }
 }

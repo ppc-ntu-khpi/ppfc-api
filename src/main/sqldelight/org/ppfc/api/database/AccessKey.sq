@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS AccessKeyDto (
+    key TEXT NOT NULL PRIMARY KEY,
+    expiresAt INTEGER NOT NULL
+);
+
+selectWhereKey:
+SELECT * FROM AccessKeyDto WHERE key = :key;
+
+insertModel:
+INSERT INTO AccessKeyDto(
+    key,
+    expiresAt
+) VALUES ?;

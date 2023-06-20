@@ -12,6 +12,7 @@ object StringResource {
     const val tokenIsNotValidOrExpired = "Токен недійсний або термін його дії минув."
     const val idPathParameterNotFound = "Параметр шляху ідентифікатора 'id' відсутній."
     const val dateParameterNotFound = "Параметр 'date' відсутній."
+    const val keyParameterNotFound = "Параметр 'key' відсутній."
     const val idsPathParameterNotFound = "Параметр шляху ідентифікатора 'ids' відсутній."
     const val argumentFormatError = "Невірний формат аргумента."
     const val fieldsSubjectIdAndEventNameAreNull =
