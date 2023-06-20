@@ -7,7 +7,7 @@ selectWhereKey:
 SELECT * FROM AccessKeyDto WHERE key = :key;
 
 insertModel:
-INSERT INTO AccessKeyDto(
+INSERT OR REPLACE INTO AccessKeyDto(
     key,
     expiresAt
 ) VALUES ?;
