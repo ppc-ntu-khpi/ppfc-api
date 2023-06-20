@@ -24,7 +24,7 @@ plugins {
 }
 
 group = "org.ppfc"
-version = "1.0.0"
+version = "1.1.0"
 
 application {
     mainClass.set("io.ktor.server.netty.EngineMain")
