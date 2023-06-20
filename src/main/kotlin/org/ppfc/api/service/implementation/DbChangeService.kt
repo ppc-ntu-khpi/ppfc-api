@@ -93,13 +93,17 @@ class DbChangeService(private val database: Database) : ChangeService, KoinCompo
         val teachersLookupTable = LookupTable<Long, TeacherResponse>()
         val subjectsLookupTable = LookupTable<Long, SubjectResponse>()
 
+        val groupIdParam = groupId ?: groupNumber?.let {
+            groupService.getByNumber(groupNumber)?.id ?: 0L
+        }
+
         return@withContext try {
             database.changeQueries.selectWithParameters(
                 offset = offset,
                 limit = limit,
                 date = date,
                 isNumerator = isNumerator?.toLong(),
-                groupId = groupId,
+                groupId = groupIdParam,
                 teacherId = teacherId
             ).executeAsList().mapNotNull { changeDto ->
                 val groups = getGroupsWhereChange(changeId = changeDto.id)
