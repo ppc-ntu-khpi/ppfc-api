@@ -6,6 +6,9 @@ CREATE TABLE IF NOT EXISTS AccessKeyDto (
 selectWhereKey:
 SELECT * FROM AccessKeyDto WHERE key = :key;
 
+deleteWhereKey:
+DELETE FROM AccessKeyDto WHERE key = :key;
+
 insertModel:
 INSERT OR REPLACE INTO AccessKeyDto(
     key,

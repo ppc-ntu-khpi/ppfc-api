@@ -25,6 +25,8 @@ class DbAccessKeyService(private val database: Database) : AccessKeyService, Koi
 
     override suspend fun verifyAccessKey(key: String): Boolean {
         val accessKey = database.accessKeyQueries.selectWhereKey(key = key).executeAsOneOrNull() ?: return false
-        return accessKey.expiresAt >= System.currentTimeMillis()
+        return (accessKey.expiresAt >= System.currentTimeMillis()).also { isValid ->
+            if(isValid) database.accessKeyQueries.deleteWhereKey(key = key)
+        }
     }
 }
